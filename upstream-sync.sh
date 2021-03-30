@@ -107,7 +107,7 @@ config_git
 # echo 'Push successful' 1>&1
 
 echo 'Fetching origin...'
-git fetch origin
+git fetch --prune --unshallow
 
 echo 'Tracking all relevant branches...'
 for remote in $(git branch -r); do
@@ -125,11 +125,11 @@ for branch in $(git for-each-ref --format='%(refname:short)' --sort='*refname:sh
             ;;
         *)
             echo 'Attempting to pull non-destructive changes from main to '
-            echo -ne $branch
+            echo -ne "$branch"
             git checkout $branch
-            git pull --no-edit origin main
-            echo $?
-            if [ $? -eq 0 ]; then
+            git pull origin main
+            var2=$?
+            if [ "var2" = "0" ]; then
                 git push origin $branch
             else
                 git merge --abort
