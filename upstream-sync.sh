@@ -121,24 +121,19 @@ for branch in $(git for-each-ref --format='%(refname:short)' --sort='*refname:sh
 
     case "$branch" in
         *\/*) 
-            echo $branch
-            echo "Branch doesn't have a / in it"
+            echo "Branch has a forward slash in it"
             ;;
         *)
-            echo "Else"
+            echo 'Attempting to pull non-destructive changes from main to ${branch}...'
+            git checkout $branch
+            git pull --no-edit origin main
+            if [ $? -eq 0 ]; then
+                git push origin $branch
+            else
+                git merge --abort
+            fi
             ;;
     esac
-
-    if [[ "$branch" != *\/* ]]; then
-    echo 'Attempting to pull non-destructive changes from main to ${branch}...'
-        git checkout $branch
-        git pull --no-edit origin main
-        if [ $? -eq 0 ]; then
-            git push origin $branch
-        else
-            git merge --abort
-        fi
-    fi
 done
 
 echo 'Checking out main before finishing...'
