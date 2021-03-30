@@ -23,6 +23,8 @@ config_git() {
         git config --global pull.rebase "${INPUT_GIT_PULL_REBASE_CONFIG}"
     fi
 
+    git config --global push.default current
+
     echo 'Git user and email credentials set for action' 1>&1
 }
 
@@ -56,47 +58,11 @@ reset_git() {
 
 # set user credentials in git config
 config_git
-git config --global push.default current
 
+# run commands to pull any changes from main to current branch
 git fetch --prune --unshallow
-
-git pull origin main
+git pull --no-edit origin main
 git push
 
-# echo 'Fetching origin...'
-# git fetch --prune --unshallow
-
-# echo 'Tracking all relevant branches...'
-# for remote in $(git branch -r); do
-#     if [ "$remote" != 'origin/main' ]; then
-#         git branch --track ${remote#origin/} $remote
-#     fi
-# done
-
-# for branch in $(git for-each-ref --format='%(refname:short)' --sort='*refname:short' refs/heads/); do
-#     echo $branch
-
-#     case "$branch" in
-#         *\/*) 
-#             echo "Branch has a forward slash in it, ignoring..."
-#             ;;
-#         *)
-#             echo 'Attempting to pull non-destructive changes from main to '
-#             echo -ne "$branch"
-#             git checkout $branch
-#             git pull --no-edit origin main
-#             echo $?
-#             if [ $? -eq 0 ]; then
-#                 git push origin $branch
-#             else
-#                 git merge --abort
-#             fi
-#             ;;
-#     esac
-# done
-
-# echo 'Checking out main before finishing...'
-# git checkout -f main
-
-# reset user credentials for future actions
+# reset git config stuff
 reset_git
