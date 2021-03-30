@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 # do not quote GIT_PULL_ARGS or GIT_*_ARGS. As they may contain
