@@ -121,9 +121,12 @@ for branch in $(git for-each-ref --format='%(refname:short)' --sort='*refname:sh
 
     case "$branch" in
         *\/*) 
-        echo $branch
-        echo "Branch doesn't have a / in it"
-        ;;
+            echo $branch
+            echo "Branch doesn't have a / in it"
+            ;;
+        *)
+            echo "Else"
+            ;;
     esac
 
     if [[ "$branch" != *\/* ]]; then
