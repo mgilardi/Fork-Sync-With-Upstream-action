@@ -112,7 +112,7 @@ echo 'Tracking all relevant branches...'
 for remote in $(git branch -r); do
     if [ "$remote" != 'origin/main' ]; then
         # git branch --set-upstream-to=$remote
-        # git branch --track ${remote#origin/} $remote &>/dev/null
+        git branch --track ${remote#origin/} $remote
         echo $remote
     fi
 done
