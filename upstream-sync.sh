@@ -106,7 +106,7 @@ config_git
 # git push ${INPUT_GIT_PUSH_ARGS} origin "${INPUT_TARGET_BRANCH}"
 # echo 'Push successful' 1>&1
 
-function print_typed_text_blue() {
+print_typed_text_blue() {
     local message="$@"
     for ((i = 0; i < ${#message}; i++)); do
         echo "after 5" | tclsh
