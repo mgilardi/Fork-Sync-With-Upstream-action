@@ -113,11 +113,11 @@ echo 'Tracking all relevant branches...'
 for remote in $(git branch -r); do
     if [ "$remote" != 'origin/main' ]; then
         git branch --track ${remote#origin/} $remote
-        echo $remote
     fi
 done
 
 for branch in $(git for-each-ref --format='%(refname:short)' --sort='*refname:short' refs/heads/); do
+    echo $branch
 
     case "$branch" in
         *\/*) 
