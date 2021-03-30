@@ -111,12 +111,14 @@ git checkout main
 
 echo 'Tracking all relevant branches...'
 for remote in $(git branch -r); do
-    git branch --track ${remote#origin/} $remote &>/dev/null
+    if [ "$remote" != 'main' ]; then
+        git branch --track ${remote#origin/} $remote &>/dev/null
+    fi
 done
 
 
 for branch in $(git for-each-ref --format='%(refname:short)' --sort='*refname:short' refs/heads/); do
-    if [[ "$branch" != *\/* ]]; then
+    if [ "$branch" != *\/* ]; then
     echo 'Attempting to pull non-destructive changes from main to ${branch}...'
         git checkout $branch
         git pull --no-edit origin main
