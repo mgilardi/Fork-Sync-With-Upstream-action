@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
 # do not quote GIT_PULL_ARGS or GIT_*_ARGS. As they may contain
@@ -106,22 +106,28 @@ config_git
 # git push ${INPUT_GIT_PUSH_ARGS} origin "${INPUT_TARGET_BRANCH}"
 # echo 'Push successful' 1>&1
 
+function print_typed_text_blue() {
+    local message="$@"
+    for ((i = 0; i < ${#message}; i++)); do
+        echo "after 5" | tclsh
+        printf "\033[1;34m${message:$i:1}\033[0m"
+    done
+}
+
+print_typed_text_blue 'Fetching origin...'
 git fetch origin
 
-echo 'Tracking all relevant branches...'
+print_typed_text_blue 'Tracking all relevant branches...'
 for remote in $(git branch -r); do
     if [ "$remote" != 'origin/main' ]; then
-        # git branch --set-upstream-to=$remote
         git branch --track ${remote#origin/} $remote
         echo $remote
     fi
 done
 
-git branch
-
 for branch in $(git for-each-ref --format='%(refname:short)' --sort='*refname:short' refs/heads/); do
     if [[ "$branch" != *\/* ]]; then
-    echo 'Attempting to pull non-destructive changes from main to ${branch}...'
+    print_typed_text_blue 'Attempting to pull non-destructive changes from main to ${branch}...'
         git checkout $branch
         git pull --no-edit origin main
         if [ $? -eq 0 ]; then
@@ -131,9 +137,6 @@ for branch in $(git for-each-ref --format='%(refname:short)' --sort='*refname:sh
         fi
     fi
 done
-
-echo 'Checking out main before finishing...'
-git checkout -f main
 
 # reset user credentials for future actions
 reset_git
