@@ -110,6 +110,8 @@ echo 'Checking out main before starting...'
 git checkout main
 
 echo 'Tracking all relevant branches...'
+git branch
+git branch -r
 for remote in $(git branch -r); do
     echo $remote
     if [ "$remote" != 'origin/main' ]; then
