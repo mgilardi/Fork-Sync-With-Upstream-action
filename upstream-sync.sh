@@ -111,6 +111,7 @@ git checkout main
 
 echo 'Tracking all relevant branches...'
 for remote in $(git branch -r); do
+    echo $remote
     if [ "$remote" != 'origin/main' ]; then
         git branch --track ${remote#origin/} $remote &>/dev/null
         echo $remote
