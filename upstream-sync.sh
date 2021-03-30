@@ -106,8 +106,7 @@ config_git
 # git push ${INPUT_GIT_PUSH_ARGS} origin "${INPUT_TARGET_BRANCH}"
 # echo 'Push successful' 1>&1
 
-echo 'Checking out main before starting...'
-git checkout main
+git fetch origin
 
 echo 'Tracking all relevant branches...'
 git branch
