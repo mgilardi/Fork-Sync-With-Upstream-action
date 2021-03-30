@@ -111,12 +111,13 @@ git fetch origin
 echo 'Tracking all relevant branches...'
 for remote in $(git branch -r); do
     if [ "$remote" != 'origin/main' ]; then
-        git branch --track ${remote#origin/} $remote &>/dev/null
-        git branch --set-upstream-to=$remote
+        # git branch --set-upstream-to=$remote
+        # git branch --track ${remote#origin/} $remote &>/dev/null
         echo $remote
     fi
 done
 
+git branch
 
 for branch in $(git for-each-ref --format='%(refname:short)' --sort='*refname:short' refs/heads/); do
     if [[ "$branch" != *\/* ]]; then
