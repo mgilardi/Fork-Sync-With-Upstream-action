@@ -118,6 +118,14 @@ for remote in $(git branch -r); do
 done
 
 for branch in $(git for-each-ref --format='%(refname:short)' --sort='*refname:short' refs/heads/); do
+
+    case "$branch" in
+        *\/*) 
+        echo $branch
+        echo "Branch doesn't have a / in it"
+        ;;
+    esac
+
     if [[ "$branch" != *\/* ]]; then
     echo 'Attempting to pull non-destructive changes from main to ${branch}...'
         git checkout $branch
