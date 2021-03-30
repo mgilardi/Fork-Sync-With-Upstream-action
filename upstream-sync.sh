@@ -124,9 +124,11 @@ for branch in $(git for-each-ref --format='%(refname:short)' --sort='*refname:sh
             echo "Branch has a forward slash in it, ignoring..."
             ;;
         *)
-            echo 'Attempting to pull non-destructive changes from main to ${branch}...'
+            echo 'Attempting to pull non-destructive changes from main to '
+            echo -ne $branch
             git checkout $branch
             git pull --no-edit origin main
+            echo $?
             if [ $? -eq 0 ]; then
                 git push origin $branch
             else
