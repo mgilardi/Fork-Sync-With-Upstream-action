@@ -121,7 +121,7 @@ for branch in $(git for-each-ref --format='%(refname:short)' --sort='*refname:sh
 
     case "$branch" in
         *\/*) 
-            echo "Branch has a forward slash in it"
+            echo "Branch has a forward slash in it, ignoring..."
             ;;
         *)
             echo 'Attempting to pull non-destructive changes from main to ${branch}...'
