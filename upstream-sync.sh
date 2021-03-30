@@ -61,7 +61,7 @@ git config --global push.default current
 git fetch --prune --unshallow
 
 git pull --no-edit origin main
-git push
+git push origin
 
 # echo 'Fetching origin...'
 # git fetch --prune --unshallow
